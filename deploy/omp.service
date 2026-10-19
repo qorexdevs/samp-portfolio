@@ -1,0 +1,19 @@
+# Сервер open.mp как служба: автозапуск после перезагрузки и рестарт после падения.
+[Unit]
+Description=open.mp game server
+After=network-online.target mysql.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=omp
+WorkingDirectory=/opt/omp
+ExecStart=/opt/omp/omp-server
+Restart=always
+RestartSec=5
+# Не даем серверу забрать всю память VDS при утечке в моде.
+MemoryMax=1500M
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
